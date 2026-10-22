@@ -1,0 +1,7 @@
+id,date,description,amount
+TX-001,2026-09-01,Office supplies,240
+TX-002,2026-09-03,Software subscription,1250
+TX-003,2026-09-05,Equipment purchase,12500
+TX-004,2026-09-08,Client lunch,85
+TX-002,2026-09-10,Subscription retry,1250
+TX-005,2026-09-12,Consulting invoice,8200

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A simple educational platform for general and specialized financial agents.">
+  <title>Finassist · Agent workspace</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="Finassist home"><span class="brand-icon">f</span>finassist<span class="brand-dot">.</span></a>
+  <div class="workspace-label">YOUR WORKSPACE</div>
+  <div class="workspace-name"><span class="workspace-avatar">S</span><div>Student workspace<small>Finance agents project</small></div></div>
+  <div class="sidebar-line"></div>
+  <p class="eyebrow">CHOOSE AN AGENT</p>
+  <nav class="agent-nav" aria-label="Choose agent">
+    <button class="agent-button active" data-agent="auto" aria-pressed="true"><span class="nav-symbol">↗</span><span>Auto-route<small>Let the platform choose</small></span><span class="active-dot"></span></button>
+    <button class="agent-button" data-agent="general" aria-pressed="false"><span class="nav-symbol">✳</span><span>General assistant<small>Understand & explore</small></span></button>
+    <button class="agent-button" data-agent="finance" aria-pressed="false"><span class="nav-symbol">▥</span><span>Financial analyst<small>Numbers into insights</small></span></button>
+    <button class="agent-button" data-agent="review" aria-pressed="false"><span class="nav-symbol">◎</span><span>Transaction reviewer<small>Spot rows to review</small></span></button>
+  </nav>
+  <div class="sidebar-note"><span class="note-icon">◇</span><strong>Small project. Real workflow.</strong><p>One question. The right agent.<br>A clear, useful answer.</p></div>
+  <div class="sidebar-footer"><span class="avatar">S</span><div>Student project<small>Local prototype · v1.0</small></div></div>
+</aside>
+<main>
+  <header class="topbar"><span>Workspace <span class="breadcrumb">/</span> <strong>Overview</strong></span><div class="connection-controls"><span class="local-badge" id="ai-badge"><i></i> AI not connected</span><button class="button secondary" id="connect-ai">Connect AI</button></div></header>
+  <div class="content">
+    <section class="intro"><div><p class="eyebrow teal">FINANCE, WITH A LITTLE HELP</p><h1>Your agents. One workspace.</h1><p class="subtitle">Ask a question, explore your figures, or give transactions a second look.</p></div><button id="reset" class="button secondary">↻ &nbsp; Reset sample data</button></section>
+    <div class="summary-grid" aria-label="Financial summary, USD">
+      <div class="summary-card"><span>Revenue <small>USD</small></span><strong id="metric-revenue">—</strong><p>Current period</p></div>
+      <div class="summary-card"><span>Expenses <small>USD</small></span><strong id="metric-expenses">—</strong><p>Current period</p></div>
+      <div class="summary-card profit-card"><span>Profit <small>USD</small></span><strong id="metric-profit">—</strong><p id="metric-margin">Calculated from your figures</p></div>
+    </div>
+    <div class="main-grid">
+      <section class="chat-panel panel" aria-label="Agent conversation">
+        <div class="panel-heading"><div><span class="small-symbol">✳</span><strong id="chat-title">Agent assistant</strong></div><button id="clear" class="text-button">Clear chat</button></div>
+        <div id="chat" class="chat" role="log" aria-live="polite" aria-label="Conversation">
+          <div class="welcome"><div class="welcome-icon">✳</div><p class="eyebrow">A GOOD PLACE TO START</p><h2>What would you like to explore?</h2><p id="agent-description">Ask naturally. A simple router connects your question to the right agent.</p><div class="examples" id="examples"></div></div>
+        </div>
+        <div class="composer-wrap"><div id="status" class="status" role="status">Demo mode · fixed replies and calculated results</div><form id="chat-form"><label class="sr-only" for="question">Your question</label><textarea id="question" rows="2" maxlength="2000" placeholder="Ask about your finances…" required></textarea><div class="composer-bottom"><div class="mode-control"><label for="mode">Mode</label><select id="mode"><option value="demo">Demo</option><option value="ai" disabled>AI · setup needed</option></select></div><button id="send" class="button primary" type="submit">Send <span>↗</span></button></div></form><p class="composer-note">Sample data · Each question is independent · All amounts in USD</p></div>
+      </section>
+      <aside class="data-column">
+        <section class="panel data-panel"><div class="panel-heading"><strong>Workspace figures</strong><span class="tag">EDITABLE</span></div><p class="panel-description">Give the financial analyst a little context.</p><div class="figure-fields"><label for="revenue">Revenue <span>USD</span></label><input id="revenue" type="number" min="0" max="1000000000000" step="0.01" required><label for="expenses">Expenses <span>USD</span></label><input id="expenses" type="number" min="0" max="1000000000000" step="0.01" required><label for="previous_revenue">Previous period revenue <span>USD</span></label><input id="previous_revenue" type="number" min="0" max="1000000000000" step="0.01" required></div><p class="field-hint">Summary cards update as you edit.</p></section>
+        <section class="panel data-panel"><div class="panel-heading"><strong>Transactions</strong><span class="file-type">CSV</span></div><p class="panel-description">Try the sample or load your own file.</p><div class="file-info"><span class="file-icon">▤</span><div><strong id="filename">transactions.csv</strong><small id="file-caption">Sample dataset</small></div></div><label class="button secondary upload-label" for="csv-file">↑ &nbsp; Load a CSV file</label><input class="sr-only" id="csv-file" type="file" accept=".csv,text/csv"><details><summary>View or edit CSV</summary><label class="sr-only" for="csv">Transaction CSV</label><textarea id="csv" spellcheck="false" maxlength="50000"></textarea></details><p class="field-hint">Required columns: id, amount. Nonnegative USD amounts; up to 500 rows.</p></section>
+        <div class="workflow-note"><span>01 &nbsp; Question</span><i>→</i><span>02 &nbsp; Agent</span><i>→</i><span>03 &nbsp; Result</span></div>
+      </aside>
+    </div>
+    <footer class="page-footer"><span>Built to learn how general and specialized agents work together.</span><button id="export" class="text-button" disabled>Download last answer ↓</button></footer>
+  </div>
+</main>
+<dialog id="ai-dialog" aria-labelledby="ai-dialog-title">
+  <div class="dialog-heading"><h2 id="ai-dialog-title">Connect real AI</h2><button type="button" class="text-button" id="close-ai" aria-label="Close AI setup">✕</button></div>
+  <p class="dialog-description" id="provider-description">Run the three agents on a local Ollama model. No API key is needed.</p>
+  <form id="ai-form" autocomplete="off">
+    <label for="ai-provider">Run AI with</label>
+    <select id="ai-provider"><option value="ollama">Local Ollama · no API key</option><option value="openai">OpenAI · API key required</option></select>
+    <div id="key-fields" hidden>
+    <label for="api-key">OpenAI API key</label>
+    <input id="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your API key here" maxlength="512">
+    <p class="setup-hint">Kept only in this local Python server's memory. Cleared when the server stops; never included in reports.</p>
+    </div>
+    <label for="ai-model">Model ID</label>
+    <input id="ai-model" list="local-models" value="qwen2.5:7b" autocomplete="off" spellcheck="false" required maxlength="100">
+    <datalist id="local-models"></datalist>
+    <p class="setup-hint" id="model-hint">Choose a model already downloaded in Ollama.</p>
+    <p id="connection-status" class="connection-status" role="status">Choose a model to test the connection.</p>
+    <div class="dialog-actions"><a id="get-api-key" href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" hidden>Get an API key ↗</a><span id="local-privacy">Runs on this computer</span><button class="button primary" id="test-connect" type="submit">Test & connect</button></div>
+  </form>
+  <button class="text-button disconnect-button" id="disconnect-ai" hidden>Disconnect AI for this server session</button>
+</dialog>
+</body>
+</html>
